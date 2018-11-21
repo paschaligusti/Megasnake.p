@@ -10,19 +10,19 @@ pygame.init()
 
 #paschal
 start_bgm = pygame.mixer.Sound("megaman.wav")                                       #importing visual and sound aspects of the program, such as the background music and backdrop
-main_bgm = pygame.mixer.music.load("Dr.wav")                                        #all are included in the folder    
+main_bgm = pygame.mixer.music.load("Dr.mp3")                                        #all are included in the folder    
 crash_sound = pygame.mixer.Sound("snakecrash.wav")
 eat_sound = pygame.mixer.Sound("snakeeat.wav")
 bg = pygame.image.load("background.png")
-    
+
 UP = 'up'                                                                           #setting the arrow keys to variables
 DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
 
-#shrey 
+#shrey
 FPS = 15                                                                           #used to control game speed, 20 matches the pace of the music
-width_of_window = 800                                                               #sets parameters of the window for the program  
+width_of_window = 800                                                               #sets parameters of the window for the program
 height_of_window = 540
 c_size = 30                                                                         #sets size of each 'cell'(ie. width of each x interval) in program
 
@@ -47,9 +47,9 @@ def press_key_message():                                                        
     press_key = ulti_font.render('Press any key to start!', True, white)
     press_key_window = press_key.get_rect()                                         #.get_rect to create the window/rectangle for the text to be in
     press_key_window.topleft = (width_of_window - 380, height_of_window - 40)
-    
+
     display.blit(press_key, press_key_window)                                       #.blit in order to actually display it
-   
+
 #paschal
 def key_press_test():                                                               #as said by the name, this function checks if the user inputs a key for the start/game over screen
     if len(pygame.event.get(QUIT)) > 0:
@@ -63,17 +63,17 @@ def key_press_test():                                                           
 
 #paschal and shrey
 def start_screen():                                                                 #establishes the start screen
-    
+
     startscreen = True
     pygame.mixer.Sound.play(start_bgm)                                              #plays the start screen music imported in the beginning
-    
+
     while startscreen:
         press_key_message()                                                         #while in the start screen, the key test function and the prress key to start function are called
         if key_press_test():
             pygame.mixer.Sound.stop(start_bgm)                                      #stops music when a key is pressed, can be viewed as a transition into the next song
             pygame.event.get()
             return
-        
+
         pygame.display.update()                                                     #updates the program display continuously
         FPSCLOCK.tick(FPS)
 
@@ -100,7 +100,7 @@ def start_screen():                                                             
         display.blit(press_key1, pk_window)
 
 
-#paschal and shrey       
+#paschal and shrey
 def game_over_screen(): #same logistics as ths atrt screen, just different sized windows, no music, and different text
     g_over_font = pygame.font.Font('Airacobra Extra Bold.ttf',225)
     g_surf = g_over_font.render('Game', True, white)
@@ -115,11 +115,11 @@ def game_over_screen(): #same logistics as ths atrt screen, just different sized
     press_key_message()
     pygame.display.update()
     pygame.time.wait(500)
-    key_press_test() 
+    key_press_test()
 
     while True:
         if key_press_test():
-            pygame.event.get() 
+            pygame.event.get()
             return
 
 #shrey
@@ -129,7 +129,7 @@ def scoreboard(score):
     score_window.topleft = (width_of_window - 790, height_of_window - 40)
     display.blit(score_text, score_window)
 
-#paschal   
+#paschal
 def b_ground():
     display.blit(bg, (0,0)) #background is an image imported earlier in the script, originally obtained from online
 
@@ -175,7 +175,7 @@ def snake():
 
     pygame.mixer.music.play(-1) #plays main music on a loop ((-1) plays it however many times necessary while the program runs))
 
-    s_point_x = random.randint(5, width_of_cell - 6)    #sets a random point for the snake to start 
+    s_point_x = random.randint(5, width_of_cell - 6)    #sets a random point for the snake to start
     s_point_z = random.randint(5, height_of_cell - 6)
     snake_coordinates = [{'x': s_point_x,     'z': s_point_z},
                   {'x': s_point_x - 1, 'z': s_point_z},
@@ -185,14 +185,14 @@ def snake():
     while True:
 
         #checks to see if the snake goes out of boundaries/hits the walls of the window
-        
+
         if snake_coordinates[snakehead]['x'] == -1 or snake_coordinates[snakehead]['x'] == width_of_cell or snake_coordinates[snakehead]['z'] == -1 or snake_coordinates[snakehead]['z'] == height_of_cell:
             pygame.mixer.music.stop()
             pygame.mixer.Sound.play(crash_sound)
             return #initializes game over
 
         #checks to see if snake head coordinates overlap with any of the snake body coordinates
-        
+
         for snake_bod in snake_coordinates[1:]:
             if snake_bod['x'] == snake_coordinates[snakehead]['x'] and snake_bod['z'] == snake_coordinates[snakehead]['z']:
                 pygame.mixer.music.stop()
@@ -200,12 +200,12 @@ def snake():
                 return #initializes game over
 
         #checks to see if megaman head is eaten
-            
+
         if snake_coordinates[snakehead]['x'] == megaman['x'] and snake_coordinates[snakehead]['z'] == megaman['z']:
             pygame.mixer.Sound.play(eat_sound)
             megaman = random_location()     #sets a new random location for the megaman head
         else:
-            del snake_coordinates[-1]       #gets rid of snake tail cell from original position; creates the 'following' mechanism      
+            del snake_coordinates[-1]       #gets rid of snake tail cell from original position; creates the 'following' mechanism
         if direction == UP:
             newsnakehead = {'x': snake_coordinates[snakehead]['x'], 'z': snake_coordinates[snakehead]['z'] - 1} #adds a cell in the direction the snake is moving when a megaman head is eaten
         elif direction == DOWN:
@@ -237,11 +237,10 @@ def snake():
         pygame.display.update()
         FPSCLOCK.tick(FPS)
 
-#paschal and shrey        
+#paschal and shrey
 def terminate():
-    pygame.quit()   
+    pygame.quit()
     sys.exit()      #only purpose of importing sys
 
 if __name__ == '__main__':
     main()
-
